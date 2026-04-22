@@ -72,8 +72,8 @@ for(i in 1:n.iterations){
   # Movement arrows
   arrows(x0 = coords.copy[1, ], 
          y0 = coords.copy[2, ], 
-         x1 = coords.copy[1, ] + velocity.copy[1, ] * 2, 
-         y1 = coords.copy[2, ] + velocity.copy[2, ] * 2, 
+         x1 = coords.copy[1, ] + velocity.copy[1, ] * 1.5, 
+         y1 = coords.copy[2, ] + velocity.copy[2, ] * 1.5, 
          length = 0.05, 
          col = "red")
   
