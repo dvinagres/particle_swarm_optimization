@@ -51,6 +51,7 @@ velocity.copy = velocity
 for(i in 1:n.iterations){
   argmin = nn.index(coords.copy)
   velocity.copy = velocity.copy[, argmin]
+  
   # %% keeps torus structure 
   coords.copy = (coords.copy + velocity.copy) %% upper
   
@@ -59,9 +60,15 @@ for(i in 1:n.iterations){
        xlim = c(lower, upper), 
        ylim = c(lower, upper),
        pch = 20, 
-       col = "purple",)
+       col = "purple")
+  
+  # Movement arrows
+  arrows(x0 = coords.copy[1, ], 
+         y0 = coords.copy[2, ], 
+         x1 = coords.copy[1, ] + velocity.copy[1, ] * 0.5, 
+         y1 = coords.copy[2, ] + velocity.copy[2, ] * 0.5, 
+         length = 0.05, 
+         col = "red")
   
   Sys.sleep(0.8)
 }
-
-
