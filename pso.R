@@ -8,13 +8,13 @@ target = function(x, y){
   x^2 + y^2
 }
 
-# -- Random initialization of particles -- 
+# -- Random initialization of particles and velocity -- 
 n.particles = 30
 rows = 2
 upper = 40
-lower = 2
+lower = 0
 coords = matrix(runif(n.particles * rows, lower, upper), nrow=2, ncol=n.particles)
-#plot(as.vector(coords))
+velocity = matrix(runif(n.particles * rows, lower, upper), nrow=2, ncol=n.particles)
 
 
 # -- Testing Nearest Neighbor Velocity Matching and Craziness -- 
@@ -42,5 +42,26 @@ nn.index = function(coord.matrix){
   return(argmin)
 }
 
+# Loop
+n.iterations = 20
+
+coords.copy = coords
+velocity.copy = velocity
+
+for(i in 1:n.iterations){
+  argmin = nn.index(coords.copy)
+  velocity.copy = velocity.copy[, argmin]
+  # %% keeps torus structure 
+  coords.copy = (coords.copy + velocity.copy) %% upper
+  
+  plot(coords.copy[1, ], 
+       coords.copy[2, ], 
+       xlim = c(lower, upper), 
+       ylim = c(lower, upper),
+       pch = 20, 
+       col = "purple",)
+  
+  Sys.sleep(0.8)
+}
 
 
