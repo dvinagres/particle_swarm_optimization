@@ -14,7 +14,7 @@ rows = 2
 upper = 40
 lower = 0
 coords = matrix(runif(n.particles * rows, lower, upper), nrow=2, ncol=n.particles)
-velocity = matrix(runif(n.particles * rows, lower, upper), nrow=2, ncol=n.particles)
+velocity = matrix(runif(n.particles * rows, -2, 2), nrow=2, ncol=n.particles)
 
 
 # -- Testing Nearest Neighbor Velocity Matching and Craziness -- 
@@ -72,8 +72,8 @@ for(i in 1:n.iterations){
   # Movement arrows
   arrows(x0 = coords.copy[1, ], 
          y0 = coords.copy[2, ], 
-         x1 = coords.copy[1, ] + velocity.copy[1, ] * 0.5, 
-         y1 = coords.copy[2, ] + velocity.copy[2, ] * 0.5, 
+         x1 = coords.copy[1, ] + velocity.copy[1, ] * 2, 
+         y1 = coords.copy[2, ] + velocity.copy[2, ] * 2, 
          length = 0.05, 
          col = "red")
   
