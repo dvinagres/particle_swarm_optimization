@@ -48,9 +48,16 @@ n.iterations = 20
 coords.copy = coords
 velocity.copy = velocity
 
+n.crazy.particles = 4
+
 for(i in 1:n.iterations){
   argmin = nn.index(coords.copy)
   velocity.copy = velocity.copy[, argmin]
+  
+  # Add craziness (stochastic variable -> randomly chosen velocities)
+  crazy.particles = sample(1:n.particles, n.crazy.particles)
+  craziness = matrix(runif(2 * n.crazy.particles, -2, 2), nrow=2, ncol=n.crazy.particles)
+  velocity.copy[, crazy.particles] = velocity.copy[, crazy.particles] + craziness
   
   # %% keeps torus structure 
   coords.copy = (coords.copy + velocity.copy) %% upper
