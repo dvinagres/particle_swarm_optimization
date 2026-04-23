@@ -127,7 +127,7 @@ coords.copy = coords
 velocity.copy = velocity
 
 # Initialize values
-# pbest keeps the best global value and gbest its index
+# pbest keeps the best individual value and gbest the index of the global best
 # pbestx and pbesty keep the best x and y coords individually
 pbest = evaluation(coords.copy)
 gbest = which.min(pbest)
