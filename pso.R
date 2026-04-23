@@ -90,21 +90,34 @@ evaluation = function(coords){
 }
 
 # Update function
-update = function(coords, pbestx, pbesty, gbest, g.increment, velocity.matrix){
+update = function(coords, pbestx, pbesty, gbest, p.increment, g.increment, velocity.matrix){
   presentx = coords[1, ]
   presenty = coords[2, ]
   n.particles = length(presentx)
   
   # Random value for each particle
-  random = runif(n.particles, 0, 1)
-
+  rand.ix = runif(n.particles, 0, 1)
+  rand.iy = runif(n.particles, 0, 1)
+  rand.gx = runif(n.particles, 0, 1)
+  rand.gy = runif(n.particles, 0, 1)
+  
+  # Individual memory
+  velocity.matrix[1, ] = ifelse(presentx > pbestx, 
+                                velocity.matrix[1, ] - rand.ix * p.increment, 
+                                velocity.matrix[1, ] + rand.ix * p.increment)
+  
+  velocity.matrix[2, ] = ifelse(presenty > pbesty, 
+                                velocity.matrix[2, ] - rand.iy * p.increment, 
+                                velocity.matrix[2, ] + rand.iy * p.increment)
+  
+  # Global memory
   velocity.matrix[1, ] = ifelse(presentx > pbestx[gbest], 
-                                velocity.matrix[1, ] - random * g.increment, 
-                                velocity.matrix[1, ] + random * g.increment)
+                                velocity.matrix[1, ] - rand.gx * g.increment, 
+                                velocity.matrix[1, ] + rand.gx * g.increment)
   
   velocity.matrix[2, ] = ifelse(presenty > pbesty[gbest],
-                                velocity.matrix[2, ] - random * g.increment,
-                                velocity.matrix[2, ] + random * g.increment)
+                                velocity.matrix[2, ] - rand.gy * g.increment,
+                                velocity.matrix[2, ] + rand.gy * g.increment)
   
   return(velocity.matrix)
 }
