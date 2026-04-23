@@ -121,3 +121,53 @@ update = function(coords, pbestx, pbesty, gbest, p.increment, g.increment, veloc
   
   return(velocity.matrix)
 }
+
+# Loop
+coords.copy = coords
+velocity.copy = velocity
+
+# Initialize values
+# pbest keeps the best global value and gbest its index
+# pbestx and pbesty keep the best x and y coords individually
+pbest = evaluation(coords.copy)
+gbest = which.min(pbest)
+pbestx = coords.copy[1, ]
+pbesty = coords.copy[2, ]
+p.increment = 1
+g.increment = 1
+
+n.iterations = 50
+
+for(i in 1:n.iterations){
+  
+  velocity.copy = update(coords.copy, pbestx, pbesty, gbest, p.increment, g.increment, velocity.copy)
+  coords.copy = (coords.copy + velocity.copy) %% upper
+  
+  current.pbest = evaluation(coords.copy)
+  
+  # Check if current.pbest is better than pbest
+  better = which(current.pbest < pbest)
+  
+  # Update values
+  pbest[better] = current.pbest[better]
+  pbestx[better] = coords.copy[1, better]
+  pbesty[better] = coords.copy[2, better]
+  
+  # Update gbest
+  gbest = which.min(pbest)
+  
+  plot(coords.copy[1, ], 
+       coords.copy[2, ], 
+       xlim = c(lower, upper), 
+       ylim = c(lower, upper),
+       pch = 20, 
+       col = "purple")
+  
+  # Roost
+  points(20, 20, pch = 19, cex = 2, col = "violet")
+  
+  Sys.sleep(0.5)
+}
+
+
+
