@@ -79,3 +79,32 @@ for(i in 1:n.iterations){
   
   Sys.sleep(0.8)
 }
+
+# -- Testing Cornfield Vector --
+# Evaluation function
+evaluation = function(coords){
+  presentx = coords[1, ]
+  presenty = coords[2, ]
+  # Roost located at (20, 20)
+  return(sqrt((presentx - 20)^2) + sqrt((presenty - 20)^2))
+}
+
+# Update function
+update = function(coords, pbestx, pbesty, gbest, g.increment, velocity.matrix){
+  presentx = coords[1, ]
+  presenty = coords[2, ]
+  n.particles = length(presentx)
+  
+  # Random value for each particle
+  random = runif(n.particles, 0, 1)
+
+  velocity.matrix[1, ] = ifelse(presentx > pbestx[gbest], 
+                                velocity.matrix[1, ] - random * g.increment, 
+                                velocity.matrix[1, ] + random * g.increment)
+  
+  velocity.matrix[2, ] = ifelse(presenty > pbesty[gbest],
+                                velocity.matrix[2, ] - random * g.increment,
+                                velocity.matrix[2, ] + random * g.increment)
+  
+  return(velocity.matrix)
+}
