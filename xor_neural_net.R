@@ -64,6 +64,30 @@ xor.nn = function(input, w1, b1, w2, b2){
   return(a2)
 }
 
+# inter.eval evaluates every particle
+inter.eval = function(coords, input, target){
+  n.particles = ncol(coords)
+  pbest = c()
+  
+  for(j in 1:n.particles){
+    particle = coords[, j]
+    
+    # Split dimensions for the net -2 inputs, 3 neurons, 1 output-
+    w1 = matrix(particle[1:6], nrow=2, ncol=3)
+    b1 = matrix(particle[7:9], nrow=1, ncol=3)
+    w2 = matrix(particle[10:12], nrow=3, ncol=1)
+    b2 = particle[13]
+    
+    # Forward Prop
+    pred = xor.nn(input, w1, b1, w2, b2)
+    
+    # Store eval
+    pbest[j] = mse(target, pred)
+  }
+  
+  return(pbest)
+}
+
 
 
 
