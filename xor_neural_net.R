@@ -44,8 +44,25 @@ md.update = function(coords, velocity.matrix, pbesti, gbest, p.increment, g.incr
   return(velocity.matrix)
 }
 
+# ReLU and Sigmoid
+relu = function(x){
+  return(pmax(0, x))
+}
+
+sigmoid = function(z){
+  return(1 / (1 + exp(-z)))
+}
+
 # XOR Neural Net
-xor.nn = function()
+xor.nn = function(input, w1, b1, w2, b2){
+  z1 = (input %*% w1) + b1
+  a1 = relu(z1)
+  
+  z2 = (a1 %*% w2) + b2
+  a2 = sigmoid(z2)
+  
+  return(a2)
+}
 
 
 
