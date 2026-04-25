@@ -55,7 +55,9 @@ sigmoid = function(z){
 
 # XOR Neural Net
 xor.nn = function(input, w1, b1, w2, b2){
-  z1 = (input %*% w1) + b1
+  # Broadcast b1
+  b1.matrix = matrix(b1, nrow=nrow(input), ncol=length(b1), byrow=TRUE)
+  z1 = (input %*% w1) + b1.matrix
   a1 = relu(z1)
   
   z2 = (a1 %*% w2) + b2
@@ -86,6 +88,33 @@ inter.eval = function(coords, input, target){
   }
   
   return(pbest)
+}
+
+# Loop
+run.3 = function(coords, velocity, lower, upper, n.iterations, p.increment=1, g.increment=1, input, target){
+  pbest = inter.eval(coords, input, target)
+  pbesti = coords
+  gbest = which.min(pbest)
+  
+  for(i in 1:n.iterations){
+    velocity = md.update(coords, velocity, pbesti, gbest, p.increment, g.increment)
+    coords = (coords + velocity) %% upper
+    
+    current.pbest = inter.eval(coords, input, target)
+    
+    better = which(current.pbest < pbest)
+    
+    pbest[better] = current.pbest[better]
+    pbesti[, better] = coords[, better]
+    
+    gbest = which.min(pbest)
+    
+    cat("Current MSE for each particle: \n")
+    cat(round(current.pbest, 4), "\n")
+  }
+  
+  
+  return(pbesti[, gbest])
 }
 
 
