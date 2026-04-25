@@ -12,8 +12,8 @@ rand.format = function(dimensions, n.particles){
 }
 
 # Mean Squared Error
-mse = function(coords, pred){
-  return(mean((coords - pred)^2))
+mse = function(target, pred){
+  return(mean((target - pred)^2))
 }
 
 # Basically update function from cornfield.R for D x N matrices, 
@@ -43,6 +43,9 @@ md.update = function(coords, velocity.matrix, pbesti, gbest, p.increment, g.incr
   
   return(velocity.matrix)
 }
+
+# XOR Neural Net
+xor.nn = function()
 
 
 
