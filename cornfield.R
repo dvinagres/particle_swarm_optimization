@@ -1,4 +1,6 @@
-# -- Cornfield Vector --
+# ---
+# Cornfield Vector
+# ---
 
 # Evaluation function
 evaluation = function(coords){
