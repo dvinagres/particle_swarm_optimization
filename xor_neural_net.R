@@ -46,7 +46,8 @@ md.update = function(coords, velocity.matrix, pbesti, gbest, p.increment, g.incr
 
 # ReLU and Sigmoid
 relu = function(x){
-  return(pmax(0, x))
+  x[x < 0] = 0
+  return(x)
 }
 
 sigmoid = function(z){
@@ -98,7 +99,7 @@ run.3 = function(coords, velocity, lower, upper, n.iterations, p.increment=1, g.
   
   for(i in 1:n.iterations){
     velocity = md.update(coords, velocity, pbesti, gbest, p.increment, g.increment)
-    coords = (coords + velocity) %% upper
+    coords = coords + velocity
     
     current.pbest = inter.eval(coords, input, target)
     
@@ -111,8 +112,8 @@ run.3 = function(coords, velocity, lower, upper, n.iterations, p.increment=1, g.
     
     cat("Current MSE for each particle: \n")
     cat(round(current.pbest, 4), "\n")
+    cat("Current leader: particle", gbest, "\n")
   }
-  
   
   return(pbesti[, gbest])
 }
