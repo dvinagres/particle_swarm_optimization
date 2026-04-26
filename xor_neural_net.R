@@ -91,6 +91,28 @@ inter.eval = function(coords, input, target){
   return(pbest)
 }
 
+# Visual
+plot.decision.boundary = function(best.particle){
+  w1 = matrix(best.particle[1:6], nrow=2, ncol=3)
+  b1 = matrix(best.particle[7:9], nrow=1, ncol=3)
+  w2 = matrix(best.particle[10:12], nrow=3, ncol=1)
+  b2 = best.particle[13]
+  
+  grid.seq = seq(-0.5, 1.5, length.out = 50)
+  grid.points = expand.grid(x1 = grid.seq, x2 = grid.seq)
+  input.matrix = as.matrix(grid.points)
+  
+  pred = xor.nn(input.matrix, w1, b1, w2, b2)
+  
+  z = matrix(pred, nrow = length(grid.seq), ncol = length(grid.seq))
+  
+  image(grid.seq, grid.seq, z, col = hcl.colors(50, "Purp", rev = TRUE), 
+        zlim = c(0, 1), main = "XOR", xlab = "Input 1", ylab = "Input 2")
+  
+  points(c(0, 1), c(0, 1), pch = 19, col = "red", cex = 2)
+  points(c(0, 1), c(1, 0), pch = 19, col = "blue", cex = 2)
+}
+
 # Loop
 run.3 = function(coords, velocity, lower, upper, n.iterations, p.increment=1, g.increment=1, input, target){
   pbest = inter.eval(coords, input, target)
@@ -110,14 +132,12 @@ run.3 = function(coords, velocity, lower, upper, n.iterations, p.increment=1, g.
     
     gbest = which.min(pbest)
     
-    cat("Current MSE for each particle: \n")
-    cat(round(current.pbest, 4), "\n")
     cat("Current leader: particle", gbest, "\n")
+    cat("MSE:", round(pbest[gbest], 4), "\n")
+    
+    plot.decision.boundary(pbesti[, gbest])
+    Sys.sleep(0.1)
   }
   
   return(pbesti[, gbest])
 }
-
-
-
-
